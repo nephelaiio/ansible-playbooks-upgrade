@@ -32,7 +32,7 @@ This playbook has the following git submodule dependencies:
 
 ```
 git checkout https://galaxy.ansible.com/nephelaiio/ansible-playbooks-upgrade upgrade
-ansible-playbook -i inventory/ awx/local.yml
+ansible-playbook -i inventory/ upgrade/upgrade.yml
 ```
 
 ## License
