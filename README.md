@@ -17,10 +17,10 @@ The following lists the group targets and descriptions for every playbook
 The following parameters are available/required for playbook invocation
 
 ### [upgrade.yml](local.yml):
-| required | variable       | description             | default |
-| ---      | ---            | ---                     | ---     |
-| no       | reboot_host    | reboot host if required | no      |
-| no       | reboot_timeout | reboot wait timeout     | 120     |
+| required | variable               | description             | default |
+| ---      | ---                    | ---                     | ---     |
+| no       | upgrade_reboot_host    | reboot host if required | no      |
+| no       | upgrade_reboot_timeout | reboot wait timeout     | 120     |
 
 ## Dependencies
 
