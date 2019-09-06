@@ -1,0 +1,73 @@
+---
+- name: Upgrade os packages
+
+  hosts: upgrade
+
+  serial: 1
+
+  become: yes
+
+  vars:
+
+    reboot_host_default: yes
+    reboot_timeout_default: 120
+
+  roles:
+
+    - nephelaiio.plugins
+
+  tasks:
+
+    - name: upgrade apt
+      apt:
+        update_cache: yes
+        upgrade: safe
+      when:
+        - ansible_os_family == 'Debian'
+
+    - name: upgrade yum
+      yum:
+        name: '*'
+        state: latest
+        update_only: yes
+        update_cache: yes
+      when:
+        - ansible_os_family == 'RedHat'
+      tags:
+        - skip_ansible_lint
+
+    - block:
+
+        - name: install yum utils
+          package:
+            name: yum-utils
+            state: latest
+
+        - name: check reboot status
+          command: needs-restarting
+          register: reboot_query
+
+        - name: reboot host
+          reboot:
+            reboot_timeout: "{{ reboot_timeout | default(reboot_timeout_default) }}"
+          when: reboot_query is succeeded
+
+      when:
+        - ansible_os_family == 'RedHat'
+        - reboot_host | default(reboot_host_default) | bool
+
+    - block:
+
+        - name: check reboot status
+          stat:
+            path: /var/run/reboot-required
+          register: reboot_query
+
+        - name: reboot host
+          reboot:
+            reboot_timeout: "{{ reboot_timeout | default(reboot_timeout_default) }}"
+          when: reboot_query.stat.exists
+
+      when:
+        - ansible_os_family == 'Debian'
+        - reboot_host | default(reboot_host_default) | bool
