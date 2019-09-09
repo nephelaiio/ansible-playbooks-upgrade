@@ -88,7 +88,7 @@
 
       when:
         - ansible_os_family == 'RedHat'
-        - upgrde_reboot_host | default(upgrde_reboot_host_default) | bool
+        - upgrade_reboot_host | default(upgrade_reboot_host_default) | bool
 
     - block:
 
@@ -99,9 +99,9 @@
 
         - name: reboot host
           reboot:
-            reboot_timeout: "{{ upgrde_reboot_timeout | default(upgrde_reboot_timeout_default) }}"
+            reboot_timeout: "{{ upgrade_reboot_timeout | default(upgrade_reboot_timeout_default) }}"
           when: reboot_query.stat.exists
 
       when:
         - ansible_os_family == 'Debian'
-        - upgrde_reboot_host | default(upgrde_reboot_host_default) | bool
+        - upgrade_reboot_host | default(upgrade_reboot_host_default) | bool
