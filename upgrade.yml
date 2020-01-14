@@ -78,13 +78,15 @@
             state: latest
 
         - name: check reboot status
-          command: needs-restarting
+          command: needs-restarting -r
           register: reboot_query
+          failed_when: false
+          changed_when: false
 
         - name: reboot host
           reboot:
             reboot_timeout: "{{ reboot_timeout | default(upgrade_reboot_timeout_default) }}"
-          when: reboot_query is succeeded
+          when: reboot_query.rc == 1
 
       when:
         - ansible_os_family == 'RedHat'
@@ -96,6 +98,7 @@
           stat:
             path: /var/run/reboot-required
           register: reboot_query
+          changed_when: false
 
         - name: reboot host
           reboot:
