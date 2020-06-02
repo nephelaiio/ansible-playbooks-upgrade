@@ -3,7 +3,7 @@
 
   hosts: upgrade
 
-  serial: 1
+  serial: "{{ upgrade_serial | default(1) }}"
 
   become: yes
 
