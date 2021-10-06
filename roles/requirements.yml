@@ -1,3 +1,4 @@
 ---
-- src: nephelaiio.plugins
-  version: 1.0.12
+roles:
+  - src: nephelaiio.plugins
+    version: 1.0.12
