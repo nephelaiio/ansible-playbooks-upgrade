@@ -12,6 +12,9 @@
     upgrade_reboot_host_default: yes
     upgrade_reboot_timeout_default: 120
 
+  collections:
+    - community.general
+
   roles:
 
     - nephelaiio.plugins
